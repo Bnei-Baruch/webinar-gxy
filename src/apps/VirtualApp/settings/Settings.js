@@ -24,7 +24,7 @@ import LogoutDropdown from "./LogoutDropdown";
 import {SelectViewLanguage} from "../components/SelectViewLanguage";
 import {AccountCircle, Mic, Videocam} from "@mui/icons-material";
 import {ThemeContext} from "../components/ThemeSwitcher/ThemeSwitcher";
-import {Support} from "../components/Support";
+//import {Support} from "../components/Support";
 import JanusStream from "../../../shared/streaming-utils";
 
 const settingsList = vsettings_list.map(({key, text, value}) => ({key, text, value: JSON.stringify(value)}));
@@ -230,7 +230,7 @@ const Settings = (props) => {
             <LogoutDropdown display={user.display}/>
           </Grid>
           <Grid item>
-            <Support/>
+            {/*<Support/>*/}
           </Grid>
         </Grid>
       </Grid>

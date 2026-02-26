@@ -48,7 +48,7 @@ import {AskQuestion, AudioMode, CloseBroadcast, Fullscreen, Layout, Mute, MuteVi
 import Settings from "./settings/Settings";
 import SettingsJoined from "./settings/SettingsJoined";
 import StudyMaterialsWidget from "./components/StudyMaterialsWidget";
-import {initCrisp, Support} from "./components/Support";
+//import {initCrisp, Support} from "./components/Support";
 import SendQuestionContainer from "./components/SendQuestions/container";
 import {getUserRole, userRolesEnum} from "../../shared/enums";
 import QuadStream from "./components/QuadStream";
@@ -87,7 +87,7 @@ const sortAndFilterFeeds = (feeds) =>
     });
 
 const userFeeds = (feeds) => feeds.filter((feed) => feed.metadata.role === userRolesEnum.user);
-const monitoringData = new MonitoringData();
+//const monitoringData = new MonitoringData();
 
 
 class VirtualMqttClient extends Component {
@@ -157,45 +157,45 @@ class VirtualMqttClient extends Component {
     this.handleUserActivityForBars = this.handleUserActivityForBars.bind(this);
   }
 
-  componentDidMount() {
-    // Add fullscreen change listeners for app fullscreen
-    document.addEventListener('fullscreenchange', this.handleAppFullScreenChange);
-    document.addEventListener('webkitfullscreenchange', this.handleAppFullScreenChange);
-    document.addEventListener('mozfullscreenchange', this.handleAppFullScreenChange);
-    document.addEventListener('MSFullscreenChange', this.handleAppFullScreenChange);
-
-    // Add user activity listeners for showing bars
-    document.addEventListener('mousemove', this.handleUserActivityForBars);
-    document.addEventListener('mousedown', this.handleUserActivityForBars);
-    document.addEventListener('keydown', this.handleUserActivityForBars);
-    document.addEventListener('touchstart', this.handleUserActivityForBars);
-  }
-
-  componentWillUnmount() {
-    this.clearHideBarsTimer();
-
-    // Remove fullscreen listeners
-    document.removeEventListener('fullscreenchange', this.handleAppFullScreenChange);
-    document.removeEventListener('webkitfullscreenchange', this.handleAppFullScreenChange);
-    document.removeEventListener('mozfullscreenchange', this.handleAppFullScreenChange);
-    document.removeEventListener('MSFullscreenChange', this.handleAppFullScreenChange);
-
-    // Remove user activity listeners
-    document.removeEventListener('mousemove', this.handleUserActivityForBars);
-    document.removeEventListener('mousedown', this.handleUserActivityForBars);
-    document.removeEventListener('keydown', this.handleUserActivityForBars);
-    document.removeEventListener('touchstart', this.handleUserActivityForBars);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const {videoroom, localVideoTrack, localAudioTrack, user} = this.state;
-    if (videoroom !== prevState.videoroom || localVideoTrack !== prevState.localVideoTrack || localAudioTrack !== prevState.localAudioTrack || JSON.stringify(user) !== JSON.stringify(prevState.user)) {
-      monitoringData.setConnection(videoroom, localAudioTrack, localVideoTrack, user, JanusStream);
-      monitoringData.setOnStatus((connectionStatus) => {
-        this.setState({connectionStatus});
-      });
-    }
-  }
+  // componentDidMount() {
+  //   // Add fullscreen change listeners for app fullscreen
+  //   document.addEventListener('fullscreenchange', this.handleAppFullScreenChange);
+  //   document.addEventListener('webkitfullscreenchange', this.handleAppFullScreenChange);
+  //   document.addEventListener('mozfullscreenchange', this.handleAppFullScreenChange);
+  //   document.addEventListener('MSFullscreenChange', this.handleAppFullScreenChange);
+  //
+  //   // Add user activity listeners for showing bars
+  //   document.addEventListener('mousemove', this.handleUserActivityForBars);
+  //   document.addEventListener('mousedown', this.handleUserActivityForBars);
+  //   document.addEventListener('keydown', this.handleUserActivityForBars);
+  //   document.addEventListener('touchstart', this.handleUserActivityForBars);
+  // }
+  //
+  // componentWillUnmount() {
+  //   this.clearHideBarsTimer();
+  //
+  //   // Remove fullscreen listeners
+  //   document.removeEventListener('fullscreenchange', this.handleAppFullScreenChange);
+  //   document.removeEventListener('webkitfullscreenchange', this.handleAppFullScreenChange);
+  //   document.removeEventListener('mozfullscreenchange', this.handleAppFullScreenChange);
+  //   document.removeEventListener('MSFullscreenChange', this.handleAppFullScreenChange);
+  //
+  //   // Remove user activity listeners
+  //   document.removeEventListener('mousemove', this.handleUserActivityForBars);
+  //   document.removeEventListener('mousedown', this.handleUserActivityForBars);
+  //   document.removeEventListener('keydown', this.handleUserActivityForBars);
+  //   document.removeEventListener('touchstart', this.handleUserActivityForBars);
+  // }
+  //
+  // componentDidUpdate(prevProps, prevState) {
+  //   const {videoroom, localVideoTrack, localAudioTrack, user} = this.state;
+  //   if (videoroom !== prevState.videoroom || localVideoTrack !== prevState.localVideoTrack || localAudioTrack !== prevState.localAudioTrack || JSON.stringify(user) !== JSON.stringify(prevState.user)) {
+  //     monitoringData.setConnection(videoroom, localAudioTrack, localVideoTrack, user, JanusStream);
+  //     monitoringData.setOnStatus((connectionStatus) => {
+  //       this.setState({connectionStatus});
+  //     });
+  //   }
+  // }
 
   handleAppFullScreenChange() {
     const appFullScreen = isFullScreen();
@@ -247,16 +247,20 @@ class VirtualMqttClient extends Component {
     user.role = getUserRole();
     user.isClient = true;
     if (user.role !== null) {
-      api.fetchVHInfo(user.id).then((data) => {
-        user.vhinfo = data;
-      }).catch(err => {
-        log.error('Error fetching VH info data: ', err?.message);
-        user.vhinfo = {active: false, error: err?.message};
-      }).finally(() => {
-        //user.allowed = !!user.vhinfo.active && user.role === userRolesEnum.user;
-        user.allowed = true;
-        this.initApp(user);
-      });
+      //user.allowed = !!user.vhinfo.active && user.role === userRolesEnum.user;
+      user.allowed = true;
+      this.initApp(user);
+
+      // api.fetchVHInfo(user.id).then((data) => {
+      //   user.vhinfo = data;
+      // }).catch(err => {
+      //   log.error('Error fetching VH info data: ', err?.message);
+      //   user.vhinfo = {active: false, error: err?.message};
+      // }).finally(() => {
+      //   //user.allowed = !!user.vhinfo.active && user.role === userRolesEnum.user;
+      //   user.allowed = true;
+      //   this.initApp(user);
+      // });
     } else {
       alert("Access denied!");
       kc.logout();
@@ -265,7 +269,7 @@ class VirtualMqttClient extends Component {
   };
 
   initApp = (user) => {
-    initCrisp(user, this.props.i18n.language);
+    //initCrisp(user, this.props.i18n.language);
 
     if (!user.allowed) {
       this.setState({user});
@@ -483,10 +487,10 @@ class VirtualMqttClient extends Component {
         this.joinRoom(false, janus, videoroom, user);
       });
 
-      janus.attach(subscriber).then((data) => {
-        this.setState({subscriber});
-        log.info("[client] Subscriber Handle: ", data);
-      });
+      // janus.attach(subscriber).then((data) => {
+      //   this.setState({subscriber});
+      //   log.info("[client] Subscriber Handle: ", data);
+      // });
     })
       .catch((err) => {
         log.error("[client] Janus init", err);
@@ -1365,16 +1369,16 @@ class VirtualMqttClient extends Component {
             user={user}
             i18n={i18n}
           />
-          <ButtonMD
-            color="info"
-            variant="contained"
-            onClick={() => window.open(`${PAY_USER_FEE}` + i18n.language, "_blank")}
-            className="top-toolbar__item"
-            disableElevation
-            size="small"
-          >
-            {t("oldClient.myProfile")}
-          </ButtonMD>
+          {/*<ButtonMD*/}
+          {/*  color="info"*/}
+          {/*  variant="contained"*/}
+          {/*  onClick={() => window.open(`${PAY_USER_FEE}` + i18n.language, "_blank")}*/}
+          {/*  className="top-toolbar__item"*/}
+          {/*  disableElevation*/}
+          {/*  size="small"*/}
+          {/*>*/}
+          {/*  {t("oldClient.myProfile")}*/}
+          {/*</ButtonMD>*/}
           { user?.allowed && (
             <>
               <ButtonGroup
@@ -1434,7 +1438,7 @@ class VirtualMqttClient extends Component {
             </>)
           }
 
-          <Support />
+          {/*<Support />*/}
           <Donations />
         </Toolbar>
       </AppBar>
